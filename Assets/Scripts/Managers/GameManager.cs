@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
@@ -9,16 +10,25 @@ public class GameManager : MonoBehaviour
     private bool levelComplete = false;
 
     [SerializeField] private GameObject FinishUI;
+    [SerializeField] private Text LevelTitle;
+    [SerializeField] private GameObject PauseUI;
     private void Start()
     {
         levelComplete = false;
         Animator = GetComponent<Animator>();
         Player = FindFirstObjectByType<BallController>();
+        LevelTitle.text = $"Уровень: {GetLevelIndex()}";
+    }
+
+    private int GetLevelIndex()
+    {
+        return int.Parse(SceneManager.GetActiveScene().name.Substring("Level".Length));
     }
 
     private void Update()
     {
         HandleReloadLevel();
+        HandlePause();
     }
 
     private void HandleReloadLevel()
@@ -27,6 +37,26 @@ public class GameManager : MonoBehaviour
         {
             ReloadLevel();
         }
+    }
+
+    private void HandlePause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseUI.SetActive(!PauseUI.activeSelf);
+            Player.CanMove = !PauseUI.activeSelf;
+        }
+    }
+
+    public void Continue()
+    {
+        Player.CanMove = true;
+        PauseUI.SetActive(false);
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); 
     }
 
     public void ReloadLevel()

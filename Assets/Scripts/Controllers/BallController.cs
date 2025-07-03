@@ -26,9 +26,10 @@ public class BallController : MonoBehaviour
     private bool isGrounded;
     private float lastLandTime;
     private bool wasGroundedLastFrame;
-
+    public bool CanMove = true;
     private GameManager GameManager;
-
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip jumpClip;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -36,6 +37,7 @@ public class BallController : MonoBehaviour
         originalScale = visual.localScale;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         Application.targetFrameRate = 60;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -56,6 +58,8 @@ public class BallController : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (!CanMove)
+            return;
         float moveInput = Input.GetAxis("Horizontal");
 
         if (isGrounded)
@@ -89,10 +93,14 @@ public class BallController : MonoBehaviour
 
     private void HandleJump()
     {
+        if (!CanMove)
+            return;
         if (isGrounded && (Input.GetButtonDown("Jump") || Input.touchCount > 0))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+            audioSource.pitch = Random.Range(0.7f,1.35f);
+            audioSource.PlayOneShot(jumpClip);
         }
     }
 
