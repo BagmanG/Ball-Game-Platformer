@@ -27,9 +27,12 @@ public class BallController : MonoBehaviour
     private float lastLandTime;
     private bool wasGroundedLastFrame;
 
+    private GameManager GameManager;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        GameManager = GameObject.FindFirstObjectByType<GameManager>();
         originalScale = visual.localScale;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         Application.targetFrameRate = 60;
@@ -95,14 +98,12 @@ public class BallController : MonoBehaviour
 
     private void UpdateJellyEffect()
     {
-        // Проверяем, нужно ли вообще применять эффекты
         bool shouldApplyEffects = Mathf.Abs(rb.linearVelocity.y) > minVelocityForEffect ||
                                 !isGrounded ||
                                 Time.time - lastLandTime < 0.3f;
 
         if (!shouldApplyEffects)
         {
-            // Плавный возврат к нормальному состоянию
             visual.localScale = Vector3.Lerp(
                 visual.localScale,
                 originalScale,
@@ -110,19 +111,15 @@ public class BallController : MonoBehaviour
             );
             return;
         }
-
-        // Расчет эффектов
         float velocityFactor = Mathf.Clamp(rb.linearVelocity.y * 0.1f, -maxStretch, maxStretch);
         Vector3 targetScale = originalScale;
 
         if (!isGrounded)
         {
-            // Эффект в воздухе
             targetScale += new Vector3(-velocityFactor, velocityFactor, -velocityFactor);
         }
         else if (Time.time - lastLandTime < 0.3f)
         {
-            // Эффект приземления с более плавным переходом
             float squashAmount = landSquash * Mathf.Clamp01(1 - (Time.time - lastLandTime) * 4f);
             targetScale = new Vector3(
                 originalScale.x + squashAmount,
@@ -130,8 +127,6 @@ public class BallController : MonoBehaviour
                 originalScale.z + squashAmount
             );
         }
-
-        // Плавное применение эффектов
         float currentEffectSpeed = isGrounded ? effectSpeed * 0.5f : effectSpeed;
         visual.localScale = Vector3.Lerp(
             visual.localScale,
@@ -149,12 +144,21 @@ public class BallController : MonoBehaviour
                 isGrounded = true;
                 lastLandTime = Time.time;
             }
+            if (collision.gameObject.CompareTag("Danger"))
+            {
+                GameManager.ReloadLevel();
+                return;
+            }
+            if (collision.gameObject.CompareTag("Finish"))
+            {
+                GameManager.OnFinish();
+                return;
+            }
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public void Freeze()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, groundCheckRadius);
+        rb.isKinematic = true;
     }
 }
