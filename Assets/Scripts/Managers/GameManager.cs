@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     private bool levelComplete = false;
 
+    private int currentLevel = 0;
+
     [SerializeField] private GameObject FinishUI;
     [SerializeField] private Text LevelTitle;
     [SerializeField] private GameObject PauseUI;
@@ -17,7 +19,8 @@ public class GameManager : MonoBehaviour
         levelComplete = false;
         Animator = GetComponent<Animator>();
         Player = FindFirstObjectByType<BallController>();
-        LevelTitle.text = $"Уровень: {GetLevelIndex()}";
+        currentLevel = GetLevelIndex();
+        LevelTitle.text = $"Уровень: {currentLevel}";
     }
 
     private int GetLevelIndex()
@@ -72,8 +75,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //TODO
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PlayerPrefs.SetInt($"Level{currentLevel}",1);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene($"Level{currentLevel+1}");
         }
     }
 
