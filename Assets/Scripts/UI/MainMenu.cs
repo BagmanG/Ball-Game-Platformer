@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ public class MainMenu : MonoBehaviour
     {
         LoadPlatformFunctions();
         LoadLevelsData();
+        AudioManager.PlayMusic(LevelAudioType.Forest);
     }
     private void LoadLevelsData()
     {

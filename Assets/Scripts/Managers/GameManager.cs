@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Managers;
 public class GameManager : MonoBehaviour
 {
     private Animator Animator;
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
         Player = FindFirstObjectByType<BallController>();
         currentLevel = GetLevelIndex();
         LevelTitle.text = $"Уровень: {currentLevel}";
+
+        AudioManager.PlayMusic(currentLevel >= 11 ? LevelAudioType.Cave : LevelAudioType.Forest);
     }
 
     private int GetLevelIndex()
