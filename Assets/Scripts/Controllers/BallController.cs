@@ -162,6 +162,11 @@ public class BallController : MonoBehaviour
                 GameManager.OnFinish();
                 return;
             }
+            if (collision.gameObject.CompareTag("Destroy"))
+            {
+                collision.gameObject.SetActive(false);
+                return;
+            }
         }
     }
 

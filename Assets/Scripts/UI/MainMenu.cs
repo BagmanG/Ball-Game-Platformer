@@ -17,21 +17,9 @@ public class MainMenu : MonoBehaviour
         LoadPlatformFunctions();
         LoadLevelsData();
     }
-    private int GetLastLevelIndex()
-    {
-        int currentIndex = 1;
-        for(int i = 1; i <= 24; i++)
-        {
-            if (PlayerPrefs.GetInt($"Level{currentIndex}",0) == 1)
-            {
-                currentIndex = i;
-            }
-        }
-        return currentIndex;
-    }
     private void LoadLevelsData()
     {
-        for(int i = 1; i <= 24; i++)
+        for(int i = 1; i <= 18; i++)
         {
             GameObject levelButton = Instantiate(LevelButton);
             levelButton.transform.SetParent(LevelsRoot.transform, false);

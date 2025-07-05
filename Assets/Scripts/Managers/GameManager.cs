@@ -77,7 +77,14 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt($"Level{currentLevel}",1);
             PlayerPrefs.Save();
-            SceneManager.LoadScene($"Level{currentLevel+1}");
+            if(currentLevel == 18)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            else
+            {
+                SceneManager.LoadScene($"Level{currentLevel + 1}");
+            }
         }
     }
 
