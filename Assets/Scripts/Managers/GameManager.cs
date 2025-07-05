@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Managers;
 using UnityEngine.EventSystems;
+using Assets.Scripts.Localization;
 public class GameManager : MonoBehaviour
 {
     private Animator Animator;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
         Animator = GetComponent<Animator>();
         Player = FindFirstObjectByType<BallController>();
         currentLevel = GetLevelIndex();
-        LevelTitle.text = $"Уровень: {currentLevel}";
+        LevelTitle.text = $"{Lang.Get(7)}: {currentLevel}";
 
         InitAudio();
         UpdateAudioImage();

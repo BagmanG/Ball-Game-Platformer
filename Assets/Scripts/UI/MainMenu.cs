@@ -62,9 +62,23 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    public void TestLoad()
+    public void Play()
     {
-        SceneManager.LoadScene("Level1");
+        int maxLevel = 0;
+        for (int i = 1; i <= 18; i++)
+        {
+            int level = PlayerPrefs.GetInt($"Level{i}", 0);
+            if(level == 1)
+            {
+                maxLevel = i;
+            }
+        }
+        if(maxLevel == 1 || maxLevel == 18)
+        {
+            SceneManager.LoadScene($"Level1");
+            return;
+        }
+        SceneManager.LoadScene($"Level{maxLevel+1}");
     }
 
     public void OnExit()
