@@ -10,6 +10,8 @@ public class Bootstrap : MonoBehaviour
         PlayerPrefs.SetInt("Level1",1);
         PlayerPrefs.Save();
 
+        AudioListener.volume = PlayerPrefs.GetInt("Audio",1);
+
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene("MainMenu");
     }

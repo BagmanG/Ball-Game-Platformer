@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Managers;
+using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     private Animator Animator;
     private BallController Player;
-
     private bool levelComplete = false;
 
     private int currentLevel = 0;
@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject FinishUI;
     [SerializeField] private Text LevelTitle;
     [SerializeField] private GameObject PauseUI;
+    [SerializeField] private Image AudioImage;
+    [SerializeField] private Sprite AudioOn;
+    [SerializeField] private Sprite AudioOff;
     private void Start()
     {
         levelComplete = false;
@@ -23,7 +26,37 @@ public class GameManager : MonoBehaviour
         currentLevel = GetLevelIndex();
         LevelTitle.text = $"Уровень: {currentLevel}";
 
+        InitAudio();
+        UpdateAudioImage();
+    }
+
+    private void UpdateAudioImage()
+    {
+        AudioImage.sprite = AudioListener.volume == 0 ? AudioOff : AudioOn;
+    }
+
+    public void MuteAudio()
+    {
+        AudioListener.volume = AudioListener.volume == 0 ? 1 : 0;
+        UpdateAudioImage();
+        PlayerPrefs.SetInt("Audio",(int)AudioListener.volume);
+        PlayerPrefs.Save();
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void SetAudioVolume(int value)
+    {
+        AudioListener.volume = value;
+    }
+
+    private void InitAudio()
+    {
         AudioManager.PlayMusic(currentLevel >= 11 ? LevelAudioType.Cave : LevelAudioType.Forest);
+        if (currentLevel >= 11)
+        {
+            AudioReverbFilter audioReverbFilter = FindFirstObjectByType<CameraFollow>().gameObject.AddComponent<AudioReverbFilter>();
+            audioReverbFilter.reverbPreset = AudioReverbPreset.Cave;
+        }
     }
 
     private int GetLevelIndex()
