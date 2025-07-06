@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public void SkipLevel()
     {
         Application.ExternalCall("SkipLevel");
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void OnSkipLevel()
