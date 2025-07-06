@@ -88,7 +88,7 @@ Assets/
 
 По вопросам сотрудничества и предложениям:  
 Email: [zagr.gadel@gmail.com](mailto:zagr.gadel@gmail.com)  
-Telegram: [@bagman2020]
+Telegram: @bagman2020
 
 ## Лицензия
 
