@@ -75,7 +75,6 @@
 Assets/
 ├── Sounds/         # Звуковые эффекты и музыка
 ├── Materials/      # Материалы
-├── Models/         # 3D модели
 ├── Prefabs/        # Префабы
 ├── Scripts/        # C# скрипты
 ├── Scenes/         # Игровые сцены
