@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private int currentLevel = 0;
 
     [SerializeField] private GameObject FinishUI;
+    [SerializeField] private GameObject SkipLevelButton;
     [SerializeField] private Text LevelTitle;
     [SerializeField] private GameObject PauseUI;
     [SerializeField] private Image AudioImage;
@@ -29,6 +30,18 @@ public class GameManager : MonoBehaviour
 
         InitAudio();
         UpdateAudioImage();
+        SkipLevelButton.SetActive(GlobalVars.Platform == Platform.WebDesktop);
+    }
+
+    public void SkipLevel()
+    {
+        Application.ExternalCall("SkipLevel");
+    }
+
+    public void OnSkipLevel()
+    {
+        levelComplete = true;
+        OnFadeAnimationEnd();
     }
 
     private void UpdateAudioImage()

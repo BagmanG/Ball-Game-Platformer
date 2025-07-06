@@ -23,6 +23,7 @@ namespace Assets.Scripts.Localization
             { 9, "Продолжить"},
             { 10, "Перезапустить"},
             { 11, "Меню паузы"},
+            { 12, "Пропустить уровень"},
         };
         public static new Dictionary<int, string> en = new Dictionary<int, string>()
         {
@@ -38,6 +39,7 @@ namespace Assets.Scripts.Localization
             { 9, "Continue"},
             { 10, "Restart"},
             { 11, "Pause menu"},
+            { 12, "Skip level"},
         };
         public static String Get(int key)
         {
