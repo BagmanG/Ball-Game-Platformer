@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 public class Bootstrap : MonoBehaviour
 {
     public Platform Platform;
+    private int CurrentVolume = 0;
     private void Awake()
     {
         GlobalVars.Platform = Platform;
@@ -14,5 +15,16 @@ public class Bootstrap : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Mute()
+    {
+        CurrentVolume = (int)AudioListener.volume;
+        AudioListener.volume = 0;
+    }
+
+    public void UnMute()
+    {
+        AudioListener.volume = CurrentVolume;
     }
 }
